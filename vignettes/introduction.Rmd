@@ -1,0 +1,138 @@
+---
+title: "Calculating the Care Density and Fragmented Care Density in R"
+output: rmarkdown::html_vignette
+author: "Robin Denz"
+vignette: >
+  %\VignetteIndexEntry{Calculating the Care Density and Fragmented Care Density in R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse=TRUE,
+  comment="#>",
+  fig.height=5,
+  fig.width=5
+)
+```
+
+# Introduction
+
+`CareDensity` package is a small R package that can be used mainly to calculate various measures of Care Density (Pollack et al. 2013, Engels et al. 2024) and Coordination of Care Indices (Jee & Cabana 2006). In this vignette we will show some simple examples for each index and give some further explanations on what they mean.
+
+# Installation
+
+This package is currently not available on CRAN, but a developmental version can be installed from github, using the following code:
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+devtools::install_github("RobinDenz1/CareDensity")
+```
+
+# Care Density
+
+## Explanation
+
+The care density was first proposed by Pollack et al. (2013). It is a measure that is supposed to measure how closely the "care team" of a patient (the providers / medical doctors he is in contact with) are connected. As an indirect measure of how closely two providers work together, the number of patients shared by the providers is used. Therefore, in order to calculate the care density, the only information we need is which patient visited which provider. This information can be considered a "patient-sharing network" and has been used in multiple studies already (DuGoff et al. 2018, Landon et al. 2012).
+
+Formally, the care density is defined as:
+
+$$C_p = \frac{\sum_{i = 1}^m w_{p, j}}{n_p (n_p - 1)/2},$$
+
+with $n_p$ being the number of providers a patient has visited, $m$ defined as the number of all possible combinations of length two and $w_{p, j}$ being the number of patients that a pair of provider is sharing.
+
+## Example
+
+Suppose we have the following data about 5 patients (denoted by numbers) and the 3 providers they visited (denoted by uppercase letters):
+
+```{r, warning=FALSE, message=FALSE}
+library(CareDensity)
+library(igraph)
+library(data.table)
+
+set.seed(3431)
+
+# some arbitrary patient-provider contact data
+data <- data.frame(PatID=c("1", "1", "1", "2", "2", "3", "3", "4", "5"),
+                   ArztID=c("A", "C", "D", "A", "D", "A", "D", "D", "C"))
+```
+
+Since there are only connections between patients and providers and no connections between provider and providers or patients and patients, this can be considered a *bipartite* graph. We can visualize this graph using the `igraph` package:
+
+```{r}
+# create graph
+g <- graph.data.frame(data, directed=FALSE)
+
+# add type
+V(g)$type <- bipartite.mapping(g)$type
+
+# change some things for better plots
+V(g)$color <- ifelse(V(g)$type, "salmon", "lightblue")
+V(g)$shape <- ifelse(V(g)$type, "square", "circle")
+E(g)$color <- "lightgray"
+
+plot(g, vertex.label.cex=0.8, vertex.label.color="black")
+```
+
+Consider patient number 1 in this graph. We can see that this patient visited 3 different providers ($A$, $B$ and $C$). Therefore, $n_p$ is equal to 3 for this patient. But how about the weights? To gain a better understanding, we can *project* this graph into a provider-centric network, where only providers are included:
+
+```{r}
+# project to provider mode
+mat <- project_to_one_mode(g, mode="cols")
+
+# make it an igraph object again
+g_provider <- graph.adjacency(mat, mode="upper", weighted=TRUE, diag=FALSE)
+
+# plot it
+plot(g_provider, edge.label=E(g_provider)$weight, vertex.shape="square",
+     edge.color="black", vertex.color="salmon",
+     vertex.label.cex=0.8)
+```
+
+In this graph we can see exactly which provider shared how many patients. So for patient 1 the care density would be:
+
+$$C_1 = \frac{1 + 1 + 3}{3 (3 - 1)/2} \approx 1.6667.$$
+
+While this is easy to calculate for a single patient in a small network, it is unfeasible to do this by hand in a large network and for multiple patients. The `care_density()` function can be used to automatically perform the step taken by hand above. All we need to do is supply the original `data` to it:
+
+```{r, message=FALSE}
+care_density(data)
+```
+Here we can see that it gets the same result for patient 1 and also outputs the care density for all other patients. Since patient 4 and 5 have only visited one provider, the care density is undefined for them and is thus denoted by `NA`.
+
+# Fragmented Care Density
+
+## Explanation
+
+The care density as defined by Pollack et al. (2014) has recently been criticed by Engels et al. (2024). Their main point are that:
+
+* **1.)** The care density assumes that all relationships with the same amount of patients shared contribute equally to care coordination. It therefore does not consider how many patients a single provider has.
+* **2.)** The kind of relationship is also not considered in the classic care density statistic. For example, relationships between psychiatrists and general providers may be more or less important than general provider - general provider relationships.
+* **3.)** The importance of specific relationships may vary for different outcomes and or different patient population, which is therefore also not considered in the classic care density measure or Pollack et al. (2024).
+
+Engels et al. (2024) instead propose a modified version of the care density, which they call *fragmented care density*. The main idea is to stratify the sum term of the classic care density into multiple provider-relationship specific sums. 
+$$C_p = \sum_{j = 1}^{k} \frac{s_j}{n_p(n_p - 1) /2},$$
+
+with $k$ being defined as:
+
+$$k = {l \choose 2} + l,$$
+
+where $l$ is the number of provider types. For example, if we have three different provider types (psychiatrist, general provider, other), we would have 6 different relationships. It is easy to see that this formulation is equivalent to the one given by Pollack et al. (2013). The new proposal is to weight the different connection types differently. Engels et al. (2024) propose the use of a logistic regression model to predict some binary outcome to estimate these weights. The *fragmented care density* is then given by:
+
+$$FC_p = ln\left(\frac{p(y=1)}{1-p(y=1)}\right) = \beta_0 + \sum_{j = 1}^{k} \beta_j \frac{s_j}{n_p(n_p - 1) /2}.$$
+
+## Example
+
+
+
+# Literature
+
+DuGoff, Eva H., Sara Fernandes-Taylor, Gary E. Weissman, Joseph H. Huntley, and Craig Evan Pollack. (2018). "A Scoping Review of Patient-Sharing Network Studies Using Administrative Data". Translational Behavioral Medicine 8 (4), pp. 598-625.
+
+Engels, Alexander, Claudia Konnopka, Espen Henken, Martin Härter, and Hans-Helmut König. (2024). "A Flexible Approach to Measure Care Coordination Based on Patient-Sharing Networks". BMC Medical Research Methodology 24 (1), pp. 1-12.
+
+Jee, Sandra H., and Michael D. Cabana. (2006). "Indices for Continuity of Care: A Systematic Review of the Literature". Medical Care Research and Review 63 (2), pp. 158-188.
+
+Landon, Bruce E., Nancy L. Keating, Michael L. Barnett, Jukka-Pekka Onnela, Sudeshna Paul, A. James O'Malley, Thomas Keegan, and Nicholas A. Christakis. (2012). "Variation in Patient-Sharing Networks of Physicians Across the United States". JAMA 308 (3): pp. 265-273.
+
+Pollack, Craig Evan, Gary E. Weissman, Klaus W. Lemke, Peter S. Hussey, and Jonathan P. Weiner. (2013). "Patient Sharing Among Physicians and Costs of Care: A Network Analytic Approach to Care Coordination Using Claims Data". Journal of General Internal Medicine 28 (3), pp. 459-465.
