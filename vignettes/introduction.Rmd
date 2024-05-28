@@ -129,7 +129,7 @@ where $w_j$ are some connection specific weights. Engels et al. (2024) propose t
 Consider again the example dataset defined above. Suppose, however, that each provider is known to be either a general practitioner or a psychiatrist. The following `data.frame` defines the type of each provider in our example:
 
 ```{r}
-d_type <- data.frame(ArztID=c("A", "C", "D"),
+d_type <- data.frame(ID=c("A", "C", "D"),
                      Type=c("GP", "GP", "Psychiatrist"))
 d_type
 ```
