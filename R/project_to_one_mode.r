@@ -1,9 +1,9 @@
 
 ## function that projects a bipartite graph into one of its possible
 ## projections. faster and more RAM efficient than the one in igraph
-#' @importFrom MatrixExtra t
-#' @importFrom MatrixExtra crossprod
-#' @importFrom MatrixExtra tcrossprod
+#' @importMethodsFrom MatrixExtra t
+#' @importMethodsFrom MatrixExtra crossprod
+#' @importMethodsFrom MatrixExtra tcrossprod
 #' @export
 project_to_one_mode <- function(g, mode, sparse=TRUE) {
   
