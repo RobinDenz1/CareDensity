@@ -1,6 +1,9 @@
 
 ## function that projects a bipartite graph into one of its possible
 ## projections. faster and more RAM efficient than the one in igraph
+#' @importFrom MatrixExtra t
+#' @importFrom MatrixExtra crossprod
+#' @importFrom MatrixExtra tcrossprod
 #' @export
 project_to_one_mode <- function(g, mode, sparse=TRUE) {
   
@@ -18,9 +21,9 @@ project_to_one_mode <- function(g, mode, sparse=TRUE) {
   # projecting
   bip_mat <- igraph::as_biadjacency_matrix(g, sparse=sparse)
   if (mode=="cols") {
-    out <- MatrixExtra::t(MatrixExtra::crossprod(bip_mat))
+    out <- t(crossprod(bip_mat))
   } else if (mode=="rows") {
-    out <- MatrixExtra::tcrossprod(bip_mat)
+    out <- tcrossprod(bip_mat)
   }
   diag(out) <- 0
   

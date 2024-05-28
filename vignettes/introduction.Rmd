@@ -49,6 +49,7 @@ Suppose we have the following data about 5 patients (denoted by numbers) and the
 library(CareDensity)
 library(igraph)
 library(data.table)
+library(MatrixExtra)
 
 set.seed(3431)
 
