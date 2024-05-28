@@ -55,16 +55,17 @@ set.seed(3431)
 # some arbitrary patient-provider contact data
 data <- data.frame(PatID=c("1", "1", "1", "2", "2", "3", "3", "4", "5"),
                    ArztID=c("A", "C", "D", "A", "D", "A", "D", "D", "C"))
+data
 ```
 
 Since there are only connections between patients and providers and no connections between provider and providers or patients and patients, this can be considered a *bipartite* graph. We can visualize this graph using the `igraph` package:
 
 ```{r}
 # create graph
-g <- graph.data.frame(data, directed=FALSE)
+g <- graph_from_data_frame(data, directed=FALSE)
 
 # add type
-V(g)$type <- bipartite.mapping(g)$type
+V(g)$type <- bipartite_mapping(g)$type
 
 # change some things for better plots
 V(g)$color <- ifelse(V(g)$type, "salmon", "lightblue")
@@ -81,7 +82,7 @@ Consider patient number 1 in this graph. We can see that this patient visited 3 
 mat <- project_to_one_mode(g, mode="cols")
 
 # make it an igraph object again
-g_provider <- graph.adjacency(mat, mode="upper", weighted=TRUE, diag=FALSE)
+g_provider <- graph_from_adjacency_matrix(mat, mode="upper", weighted=TRUE, diag=FALSE)
 
 # plot it
 plot(g_provider, edge.label=E(g_provider)$weight, vertex.shape="square",
@@ -117,13 +118,114 @@ with $k$ being defined as:
 
 $$k = {l \choose 2} + l,$$
 
-where $l$ is the number of provider types. For example, if we have three different provider types (psychiatrist, general provider, other), we would have 6 different relationships. It is easy to see that this formulation is equivalent to the one given by Pollack et al. (2013). The new proposal is to weight the different connection types differently. Engels et al. (2024) propose the use of a logistic regression model to predict some binary outcome to estimate these weights. The *fragmented care density* is then given by:
+where $l$ is the number of provider types. For example, if we have three different provider types (psychiatrist, general provider, other), we would have 6 different relationships. It is easy to see that this formulation is equivalent to the one given by Pollack et al. (2013). The new proposal is to weight the different connection types differently. The *fragmented care density* as proposed by Engels et al. (2024) is then given by:
 
-$$FC_p = ln\left(\frac{p(y=1)}{1-p(y=1)}\right) = \beta_0 + \sum_{j = 1}^{k} \beta_j \frac{s_j}{n_p(n_p - 1) /2}.$$
+$$FC_p = \sum_{j = 1}^{k} w_j \frac{s_j}{n_p(n_p - 1) /2}.$$
+
+where $w_j$ are some connection specific weights. Engels et al. (2024) propose to use regression models to estimate these weights. This is explained in a little more detail below.
 
 ## Example
 
+Consider again the example dataset defined above. Suppose, however, that each provider is known to be either a general practitioner or a psychiatrist. The following `data.frame` defines the type of each provider in our example:
 
+```{r}
+d_type <- data.frame(ArztID=c("A", "C", "D"),
+                     Type=c("GP", "GP", "Psychiatrist"))
+d_type
+```
+
+Since there are two different kinds of providers, there are 3 possible provider connections:
+
+* GP - GP
+* GP - Psychiatrist
+* Psychiatrist - Psychiatrist
+
+We can safely omit the "Psychiatrist - GP" connection type, because we are always dealing with undirected connections, which means that the order of appearance does not make a difference. Now we can use the `fragmented_care_density()` function as follows:
+
+```{r}
+fragmented_care_density(data, weights=NULL, type=d_type, by_connection=TRUE)
+```
+
+By setting `by_connection` to `TRUE` we are telling the function to not directly calculate the fragmented care density for us, but to instead return the sum of the weights and care densities per connection type and patient. From this dataset we can see that only patient 1 has two different kinds of provider connections among his network. If we sum up the care densities of each patient over all his connection types, we get the classic care density.
+
+To calculate the actual fragmented care density for each patient, we need to supply `weights` for each connection type. We can do this by constructing a `data.frame` that looks like this:
+
+```{r}
+d_weights <- data.frame(from=c("GP", "GP", "Psychiatrist"),
+                        to=c("GP", "Psychiatrist", "Psychiatrist"),
+                        weight=c(1, 1, 1))
+d_weights
+```
+
+Here, we set all weights to 1. Therefore, if we now call the `fragmented_care_density()` function again (this time without using the `by_connection` argument):
+
+```{r}
+fragmented_care_density(data, weights=d_weights, type=d_type)
+```
+
+we get the same results as we did before when using the simple `care_density()` function. However, if we use different weights for each connection type:
+
+```{r}
+d_weights <- data.frame(from=c("GP", "GP", "Psychiatrist"),
+                        to=c("GP", "Psychiatrist", "Psychiatrist"),
+                        weight=c(1.1, 0.5, 1.3))
+d_weights
+```
+
+and call the function again:
+
+```{r}
+fragmented_care_density(data, weights=d_weights, type=d_type)
+```
+
+we obtain different results. Note that this never matters for patients 4 and 5, because they only have one provider connection, resulting in `NA` values no matter the weights.
+
+## Estimating Connection-Specific Weights
+
+In the example above, we used arbitrary weights to showcase the functionality of the `fragmented_care_density()` function. In reality we would like to use sensible weights instead. Engels et al. (2024) recommend using regression models to obtain the relevant weights. In their article, they use a logistic regression model to predict a binary outcome, given the presence of a connection type and some covariates. We will illustrate this approach here without the use of other covariates.
+
+Suppose in addition to `data` (patient-provider relationships) and `type` (the provider types) we also have some patient level information on a binary outcome of interest $Y$. Suppose this is that data:
+
+```{r}
+d_outcome <- data.frame(PatID=c("1", "2", "3", "4", "5"),
+                        Y=c(0, 0, 1, 1, 0))
+d_outcome
+```
+
+First, we again obtain data about the connection sums ($s_j$) per connection type:
+
+```{r}
+d_consum <- fragmented_care_density(data, weights=NULL, type=d_type, by_connection=TRUE)
+```
+
+We then binarize these weights to 0 / 1. If at least one connection is present, it is considered a 1, otherwise it is a 0:
+
+```{r}
+d_consum$sum_weights <- fifelse(d_consum$sum_weights > 0, 1, 0)
+```
+
+Next, we transform this information into the long-format using the `dcast()` function of the `data.table` package:
+
+```{r}
+d_consum <- dcast(as.data.table(d_consum), PatID ~ connection,
+                  value.var="sum_weights", fill=0)
+d_consum$`NA` <- NULL
+```
+
+Afterwards we can merge the outcome data to this dataset:
+
+```{r}
+d_outcome <- merge(d_consum, d_outcome, by="PatID")
+```
+
+Now we can finally fit the regression model, using the outcome as the dependent variable and the connection-type dummies as independent variables:
+
+```{r}
+mod <- glm(Y ~ `GP - GP` + `Psychiatrist - GP`, data=d_outcome, family="binomial")
+summary(mod)
+```
+
+The estimated coefficients associated with each connection type may now be used as weights. Note that in this example the weights don't make any sense due to (1) the very low sample size, (2) the very small network and (3) because all data is completely made up with no underlying true relationships. The general procedure, however, should work with real data.
 
 # Literature
 
