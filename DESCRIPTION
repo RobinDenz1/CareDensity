@@ -9,8 +9,7 @@ Description: Given a patient-sharing network, calculate either the classic care 
 	By utilizing the igraph and data.table packages, the provided functions scale well for
 	very large graphs.
 License: GPL (>= 3)
-URL: https://github.com/RobinDenz1/CareDens,
-    https://robindenz1.github.io/CareDens/
+URL: https://github.com/RobinDenz1/CareDens, https://robindenz1.github.io/CareDens/, https://robindenz1.github.io/CareDensity/
 BugReports: https://github.com/RobinDenz1/CareDens/issues
 Imports: 
     data.table,
