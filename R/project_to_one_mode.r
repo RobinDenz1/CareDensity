@@ -16,7 +16,7 @@ project_to_one_mode <- function(g, mode, sparse=TRUE) {
   }
   
   # projecting
-  bip_mat <- igraph::as_incidence_matrix(g, sparse=sparse)
+  bip_mat <- igraph::as_biadjacency_matrix(g, sparse=sparse)
   if (mode=="cols") {
     out <- MatrixExtra::t(MatrixExtra::crossprod(bip_mat))
   } else if (mode=="rows") {

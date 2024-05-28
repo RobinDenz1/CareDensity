@@ -9,7 +9,7 @@ This function calculates the Fragmented Care Density Index as defined by Engels 
 }
 \usage{
 fragmented_care_density(data, pat_col=1, weights, type,
-                        by_connection=FALSE, as_data_frame=TRUE)
+                        by_connection=FALSE, data_frame=TRUE)
 }
 \arguments{
   \item{data}{
@@ -27,7 +27,7 @@ A \code{data.frame} containing two columns called \code{"ID"} (containing all pr
   \item{by_connection}{
 Either \code{TRUE} or \code{FALSE} (default). If \code{TRUE} this function returns the person and connection-specific sums of weights and simple care densities instead of returning the fragmented care density directly. This may be useful to estimate weights for the \code{weights} argument. 
   }
-  \item{as_data_frame}{
+  \item{data_frame}{
 Set this argument to \code{TRUE} to return a \code{data.frame} instead of the \code{data.table} format that is used under the hood.
   }
 }

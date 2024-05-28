@@ -34,7 +34,10 @@ get_d_combs <- function(data, dat_g) {
 
 ## given a data.frame of weigts per connections, expand it to include
 ## all equal connections (direction does not matter)
+#' @importFrom data.table melt.data.table
 expand_connection_weights <- function(weights) {
+  
+  con <- from <- to <- variable <- con_rev <- NULL
   
   setDT(weights)
   
@@ -45,7 +48,7 @@ expand_connection_weights <- function(weights) {
   weights[, to := NULL]
   
   # put in long format and remove duplicates
-  weights <- melt(weights, id.vars="weight")
+  weights <- melt.data.table(weights, id.vars="weight")
   weights[, variable := NULL]
   weights <- unique(weights)
   colnames(weights) <- c("con_weight", "connection")
@@ -61,14 +64,14 @@ expand_connection_weights <- function(weights) {
 #' @importFrom data.table .N
 #' @importFrom data.table %chin%
 #' @importFrom data.table :=
-#' @importFrom igraph graph.data.frame
-#' @importFrom igraph bipartite.mapping
+#' @importFrom igraph graph_from_data_frame
+#' @importFrom igraph bipartite_mapping
 #' @importFrom igraph V
 #' @importFrom igraph V<-
-#' @importFrom igraph graph.adjacency
-#' @importFrom igraph get.data.frame
+#' @importFrom igraph graph_from_adjacency_matrix
+#' @importFrom igraph as_data_frame
 care_density.fit <- function(data, pat_col=1, weights, type,
-                             by_connection=FALSE, as_data_frame=TRUE,
+                             by_connection=FALSE, data_frame=TRUE,
                              estimator) {
   
   requireNamespace("data.table")
@@ -76,6 +79,7 @@ care_density.fit <- function(data, pat_col=1, weights, type,
   
   # silence devtools::check()
   . <- PatID <- ArztID <- n <- weight <- sum_weights <- NULL
+  connection <- type_from <- type_to <- con_weight <- NULL
   
   # as data.table to make it faster
   setDT(data)
@@ -199,7 +203,7 @@ care_density.fit <- function(data, pat_col=1, weights, type,
   out <- rbind(out, data0)
   setkey(out, "PatID")
   
-  if (as_data_frame) {
+  if (data_frame) {
     out <- as.data.frame(out)
   }
   
@@ -208,13 +212,13 @@ care_density.fit <- function(data, pat_col=1, weights, type,
 
 ## calculate the classic care density as defined by Pollack et al. (2013)
 #' @export
-care_density <- function(data, pat_col=1, as_data_frame=TRUE) {
+care_density <- function(data, pat_col=1, data_frame=TRUE) {
   
   check_inputs_care_density(data=data, pat_col=pat_col,
-                            as_data_frame=as_data_frame)
+                            data_frame=data_frame)
   
   out <- care_density.fit(data=data, pat_col=pat_col,
-                          as_data_frame=as_data_frame,
+                          data_frame=data_frame,
                           by_connection=FALSE, weights=NULL, type=NULL,
                           estimator="simple")
   return(out)
@@ -223,13 +227,13 @@ care_density <- function(data, pat_col=1, as_data_frame=TRUE) {
 ## calculate the fragmented care density as defined by Engels et al. (2024)
 #' @export
 fragmented_care_density <- function(data, pat_col=1, weights, type,
-                                    by_connection=FALSE, as_data_frame=TRUE) {
+                                    by_connection=FALSE, data_frame=TRUE) {
   
   check_inputs_fcd(data=data, pat_col=pat_col, weights=weights, type=type,
-                   by_connection=by_connection, as_data_frame=as_data_frame)
+                   by_connection=by_connection, data_frame=data_frame)
   
   out <- care_density.fit(data=data, pat_col=pat_col,
-                          as_data_frame=as_data_frame,
+                          data_frame=data_frame,
                           by_connection=by_connection, weights=weights,
                           type=type, estimator="fragmented")
   return(out)

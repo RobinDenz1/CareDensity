@@ -8,7 +8,7 @@ Calculate the Care Density for all Patients
 This function calculates the classic Care Density Index as defined by Pollack et al. (2013) for each patient in the supplied dataset. Works well with large patient-sharing networks.
 }
 \usage{
-care_density(data, pat_col=1, as_data_frame=TRUE)
+care_density(data, pat_col=1, data_frame=TRUE)
 }
 \arguments{
   \item{data}{
@@ -17,7 +17,7 @@ A \code{data.frame} like object containing exactly two columns. One should inclu
   \item{pat_col}{
 Specifies which column of \code{data} includes the patient IDs. If the first column contains the patient IDs this should be kept at 1, if the second column contains the patient IDs it should be set to 2.
   }
-  \item{as_data_frame}{
+  \item{data_frame}{
 Set this argument to \code{TRUE} to return a \code{data.frame} instead of the \code{data.table} format that is used under the hood.
   }
 }
@@ -42,7 +42,7 @@ DuGoff, Eva H., Sara Fernandes-Taylor, Gary E. Weissman, Joseph H. Huntley, and 
 Robin Denz
 }
 \seealso{
-\code{\link{project_to_one_mode}}
+\code{\link{fragmented_care_density}}
 }
 \examples{
 library(CareDensity)

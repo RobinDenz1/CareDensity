@@ -15,10 +15,10 @@ BugReports: https://github.com/RobinDenz1/CareDens/issues
 Imports: 
     data.table,
 	igraph,
+	MatrixExtra,
 	utils
 Suggests: 
     knitr,
-	MatrixExtra,
     rmarkdown,
     testthat (>= 3.2.1),
     covr
