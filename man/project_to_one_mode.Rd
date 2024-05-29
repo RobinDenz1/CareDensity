@@ -47,10 +47,10 @@ data <- data.frame(PatID=c("1", "1", "1", "2", "2", "3", "3", "4", "5"),
                    ArztID=c("A", "C", "D", "A", "D", "A", "D", "D", "C"))
 
 # create graph
-g <- graph.data.frame(data, directed=FALSE)
+g <- graph_from_data_frame(data, directed=FALSE)
 
 # add type
-V(g)$type <- bipartite.mapping(g)$type
+V(g)$type <- bipartite_mapping(g)$type
 
 ## NOTE: we use sparse=FALSE here to show the resulting matrix directly,
 #        but it would be more efficient to keep it at sparse=TRUE

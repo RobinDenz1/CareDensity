@@ -99,11 +99,7 @@ care_density.fit <- function(data, pat_col=1, weights, type,
   
   # test if unique (would otherwise not create a bipartite graph)
   if (any(data$PatID %in% data$ArztID)) {
-    stop("There are patient IDs that are equal to provided IDs, which is not",
-         " permissible. Please set unique IDs for patients and providers",
-         " and rerun this function.")
-  } else if (any(data$AztrID %in% data$PatID)) {
-    stop("There are provider IDs that are equal to patient IDs, which is not",
+    stop("There are patient IDs that are equal to provider IDs, which is not",
          " permissible. Please set unique IDs for patients and providers",
          " and rerun this function.")
   }
