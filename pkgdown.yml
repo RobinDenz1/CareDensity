@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   introduction: introduction.html
-last_built: 2024-11-15T11:21Z
+last_built: 2024-11-15T12:10Z
 urls:
   reference: https://robindenz1.github.io/CareDensity/reference
   article: https://robindenz1.github.io/CareDensity/articles
