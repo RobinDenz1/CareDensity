@@ -1,5 +1,5 @@
 Package: CareDensity
-Title: Calculate the Care Density or Fragmented Care Density given a Patient-Sharing Network
+Title: Calculate the Care Density or Fragmented Care Density Given a Patient-Sharing Network
 Version: 0.1.0
 Authors@R: 
     person("Robin", "Denz", , "robin.denz@rub.de", role = c("aut", "cre"))
@@ -7,11 +7,11 @@ Maintainer: Robin Denz <robin.denz@rub.de>
 Description: Given a patient-sharing network, calculate either the classic care density as
 	proposed by Pollack et al. (2013) <doi:10.1007/s11606-012-2104-7> or the
 	fragmented care density as proposed by Engels et al. (2024) <doi:10.1186/s12874-023-02106-0>.
-	By utilizing the igraph and data.table packages, the provided functions scale well for
+	By utilizing the 'igraph' and 'data.table' packages, the provided functions scale well for
 	very large graphs.
 License: GPL (>= 3)
-URL: https://github.com/RobinDenz1/CareDens, https://robindenz1.github.io/CareDens/, https://robindenz1.github.io/CareDensity/
-BugReports: https://github.com/RobinDenz1/CareDens/issues
+URL: https://github.com/RobinDenz1/CareDensity, https://robindenz1.github.io/CareDensity/
+BugReports: https://github.com/RobinDenz1/CareDensity/issues
 Depends:
 	MatrixExtra
 Imports: 
