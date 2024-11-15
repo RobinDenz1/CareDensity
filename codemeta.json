@@ -2,11 +2,11 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "CareDensity",
-  "description": "Given a patient-sharing network, calculate either the classic care density as proposed by Pollack et al. (2013) <doi:10.1007/s11606-012-2104-7> or the fragmented care density as proposed by Engels et al. (2024) <doi:10.1186/s12874-023-02106-0>. By utilizing the igraph and data.table packages, the provided functions scale well for very large graphs.",
-  "name": "CareDensity: Calculate the Care Density or Fragmented Care Density given a Patient-Sharing Network",
-  "relatedLink": ["https://robindenz1.github.io/CareDens/", "https://robindenz1.github.io/CareDensity/"],
-  "codeRepository": "https://github.com/RobinDenz1/CareDens",
-  "issueTracker": "https://github.com/RobinDenz1/CareDens/issues",
+  "description": "Given a patient-sharing network, calculate either the classic care density as proposed by Pollack et al. (2013) <doi:10.1007/s11606-012-2104-7> or the fragmented care density as proposed by Engels et al. (2024) <doi:10.1186/s12874-023-02106-0>. By utilizing the 'igraph' and 'data.table' packages, the provided functions scale well for very large graphs.",
+  "name": "CareDensity: Calculate the Care Density or Fragmented Care Density Given a Patient-Sharing Network",
+  "relatedLink": "https://robindenz1.github.io/CareDensity/",
+  "codeRepository": "https://github.com/RobinDenz1/CareDensity",
+  "issueTracker": "https://github.com/RobinDenz1/CareDensity/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
   "version": "0.1.0",
   "programmingLanguage": {
@@ -127,8 +127,9 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "53.898KB",
-  "releaseNotes": "https://github.com/RobinDenz1/CareDens/blob/master/NEWS.md",
+  "fileSize": "53.865KB",
+  "releaseNotes": "https://github.com/RobinDenz1/CareDensity/blob/master/NEWS.md",
+  "readme": "https://github.com/RobinDenz1/CareDensity/blob/main/README.md",
   "contIntegration": ["https://github.com/RobinDenz1/CareDensity/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/RobinDenz1/CareDensity?branch=main"],
   "developmentStatus": "https://www.repostatus.org/#active"
 }
