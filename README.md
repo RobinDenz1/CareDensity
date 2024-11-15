@@ -12,7 +12,7 @@ Author: Robin Denz
 
 ## Description
 
-`CareDensity` is a small R-Package which can be used to calculate the care density index and the fragemented care density.
+`CareDensity` is a small R-Package which can be used to calculate the care density index and the fragmented care density.
 
 ## Installation
 

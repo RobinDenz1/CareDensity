@@ -19,7 +19,7 @@ A \code{data.frame} like object containing exactly two columns. One should inclu
 Specifies which column of \code{data} includes the patient IDs. If the first column contains the patient IDs this should be kept at 1, if the second column contains the patient IDs it should be set to 2.
   }
   \item{weights}{
-A \code{data.frame} containing three columns called \code{"from"} (character), \code{"to"} (character) and \code{"weight"} (numeric). The first two columns should contain types of providers, thus definining different provider connections. All possible non-redundant connections need to be specified this way. The \code{"weight"} column should include the weight associated with that connection. When using \code{by_connection=TRUE} this argument can be set to \code{NULL}, because it won't be needed then. See examples for more information.
+A \code{data.frame} containing three columns called \code{"from"} (character), \code{"to"} (character) and \code{"weight"} (numeric). The first two columns should contain types of providers, thus defining different provider connections. All possible non-redundant connections need to be specified this way. The \code{"weight"} column should include the weight associated with that connection. When using \code{by_connection=TRUE} this argument can be set to \code{NULL}, because it won't be needed then. See examples for more information.
   }
   \item{type}{
 A \code{data.frame} containing two columns called \code{"ID"} (containing all provider IDs) and \code{"Type"} (containing the type of the provider). Both columns should be character vectors.

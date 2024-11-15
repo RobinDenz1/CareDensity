@@ -2,9 +2,9 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "CareDensity",
-  "description": "Given a patient-sharing network, calculate either the classic care density as proposed by Pollack et al. (2012) or the fragmented care density as proposed by XXX. By utilizing the igraph and data.table packages, the provided functions scale well for very large graphs.",
+  "description": "Given a patient-sharing network, calculate either the classic care density as proposed by Pollack et al. (2013) <doi:10.1007/s11606-012-2104-7> or the fragmented care density as proposed by Engels et al. (2024) <doi:10.1186/s12874-023-02106-0>. By utilizing the igraph and data.table packages, the provided functions scale well for very large graphs.",
   "name": "CareDensity: Calculate the Care Density or Fragmented Care Density given a Patient-Sharing Network",
-  "relatedLink": "https://robindenz1.github.io/CareDens/",
+  "relatedLink": ["https://robindenz1.github.io/CareDens/", "https://robindenz1.github.io/CareDensity/"],
   "codeRepository": "https://github.com/RobinDenz1/CareDens",
   "issueTracker": "https://github.com/RobinDenz1/CareDens/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
@@ -43,18 +43,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=knitr"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "MatrixExtra",
-      "name": "MatrixExtra",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=MatrixExtra"
     },
     {
       "@type": "SoftwareApplication",
@@ -97,6 +85,18 @@
   "softwareRequirements": {
     "1": {
       "@type": "SoftwareApplication",
+      "identifier": "MatrixExtra",
+      "name": "MatrixExtra",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=MatrixExtra"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
       "identifier": "data.table",
       "name": "data.table",
       "provider": {
@@ -107,10 +107,11 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=data.table"
     },
-    "2": {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "igraph",
       "name": "igraph",
+      "version": ">= 2.0.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -119,12 +120,15 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=igraph"
     },
-    "3": {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "13.316KB"
+  "fileSize": "53.898KB",
+  "releaseNotes": "https://github.com/RobinDenz1/CareDens/blob/master/NEWS.md",
+  "contIntegration": ["https://github.com/RobinDenz1/CareDensity/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/RobinDenz1/CareDensity?branch=main"],
+  "developmentStatus": "https://www.repostatus.org/#active"
 }

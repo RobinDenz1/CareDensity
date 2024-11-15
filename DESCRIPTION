@@ -5,7 +5,8 @@ Authors@R:
     person("Robin", "Denz", , "robin.denz@rub.de", role = c("aut", "cre"))
 Maintainer: Robin Denz <robin.denz@rub.de>
 Description: Given a patient-sharing network, calculate either the classic care density as
-	proposed by Pollack et al. (2012) or the fragmented care density as proposed by XXX.
+	proposed by Pollack et al. (2013) <doi:10.1007/s11606-012-2104-7> or the
+	fragmented care density as proposed by Engels et al. (2024) <doi:10.1186/s12874-023-02106-0>.
 	By utilizing the igraph and data.table packages, the provided functions scale well for
 	very large graphs.
 License: GPL (>= 3)
