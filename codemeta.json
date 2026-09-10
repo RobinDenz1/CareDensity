@@ -14,7 +14,13 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23 ucrt)",
+  "runtimePlatform": "R version 4.5.0 (2025-04-11 ucrt)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -127,9 +133,10 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "53.865KB",
+  "fileSize": "102.749KB",
   "releaseNotes": "https://github.com/RobinDenz1/CareDensity/blob/master/NEWS.md",
   "readme": "https://github.com/RobinDenz1/CareDensity/blob/main/README.md",
   "contIntegration": ["https://github.com/RobinDenz1/CareDensity/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/RobinDenz1/CareDensity?branch=main"],
-  "developmentStatus": "https://www.repostatus.org/#active"
+  "developmentStatus": "https://www.repostatus.org/#active",
+  "keywords": ["care-coordination", "network-analysis", "patient-care"]
 }

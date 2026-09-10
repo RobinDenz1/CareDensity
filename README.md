@@ -6,7 +6,7 @@
 [![Codecov test coverage](https://codecov.io/gh/RobinDenz1/CareDensity/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RobinDenz1/CareDensity?branch=main)
 <!-- badges: end -->
 
-# CareDensity
+# CareDensity <img src="man/figures/logo.png" height="240" align="right" />
 
 Author: Robin Denz
 
