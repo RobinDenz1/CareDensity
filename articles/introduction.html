@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Calculating the Care Density and Fragmented Care Density in R • CareDensity</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calculating the Care Density and Fragmented Care Density in R">
 </head>
 <body>
@@ -60,7 +60,7 @@
                         <h4 data-toc-skip class="author">Robin Denz</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/RobinDenz1/CareDensity/blob/main/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/RobinDenz1/CareDensity/blob/v0.1.0/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
     </div>
 
@@ -99,7 +99,7 @@ we need is which patient visited which provider. This information can be
 considered a “patient-sharing network” and has been used in multiple
 studies already (DuGoff et al. 2018, Landon et al. 2012).</p>
 <p>Formally, the care density is defined as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>p</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><msub><mi>w</mi><mrow><mi>p</mi><mo>,</mo><mi>j</mi></mrow></msub></mrow><mrow><msub><mi>n</mi><mi>p</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mi>p</mi></msub><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>2</mn></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">C_p = \frac{\sum_{i = 1}^m w_{p, j}}{n_p (n_p - 1)/2},</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>p</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><msub><mi>w</mi><mrow><mi>p</mi><mo>,</mo><mi>j</mi></mrow></msub></mrow><mrow><msub><mi>n</mi><mi>p</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>n</mi><mi>p</mi></msub><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>2</mn></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">C_p = \frac{\sum_{i = 1}^m w_{p, j}}{n_p (n_p - 1)/2},</annotation></semantics></math></p>
 <p>with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>p</mi></msub><annotation encoding="application/x-tex">n_p</annotation></semantics></math>
 being the number of providers a patient has visited,
@@ -153,7 +153,7 @@ graph using the <code>igraph</code> package:</p>
 <span><span class="fu"><a href="https://r.igraph.org/reference/E.html" class="external-link">E</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span><span class="op">$</span><span class="va">color</span> <span class="op">&lt;-</span> <span class="st">"lightgray"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">g</span>, vertex.label.cex<span class="op">=</span><span class="fl">0.8</span>, vertex.label.color<span class="op">=</span><span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="480"></p>
 <p>Consider patient number 1 in this graph. We can see that this patient
 visited 3 different providers
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>,
@@ -176,10 +176,10 @@ provider-centric network, where only providers are included:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">g_provider</span>, edge.label<span class="op">=</span><span class="fu"><a href="https://r.igraph.org/reference/E.html" class="external-link">E</a></span><span class="op">(</span><span class="va">g_provider</span><span class="op">)</span><span class="op">$</span><span class="va">weight</span>, vertex.shape<span class="op">=</span><span class="st">"square"</span>,</span>
 <span>     edge.color<span class="op">=</span><span class="st">"black"</span>, vertex.color<span class="op">=</span><span class="st">"salmon"</span>,</span>
 <span>     vertex.label.cex<span class="op">=</span><span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-5-1.png" width="480"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="480"></p>
 <p>In this graph we can see exactly which provider shared how many
 patients. So for patient 1 the care density would be:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>+</mo><mn>3</mn></mrow><mrow><mn>3</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>2</mn></mrow></mfrac><mo>≈</mo><mn>1.6667</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">C_1 = \frac{1 + 1 + 3}{3 (3 - 1)/2} \approx 1.6667.</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>+</mo><mn>3</mn></mrow><mrow><mn>3</mn><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>2</mn></mrow></mfrac><mo>≈</mo><mn>1.6667</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">C_1 = \frac{1 + 1 + 3}{3 (3 - 1)/2} \approx 1.6667.</annotation></semantics></math></p>
 <p>While this is easy to calculate for a single patient in a small
 network, it is unfeasible to do this by hand in a large network and for
 multiple patients. The <code><a href="../reference/care_density.html">care_density()</a></code> function can be used
@@ -228,7 +228,7 @@ Pollack et al. (2024).</li>
 density, which they call <em>fragmented care density</em>. The main idea
 is to stratify the sum term of the classic care density into multiple
 provider-relationship specific sums.
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>p</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></munderover><mfrac><msub><mi>s</mi><mi>j</mi></msub><mrow><msub><mi>n</mi><mi>p</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mi>p</mi></msub><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>2</mn></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">C_p = \sum_{j = 1}^{k} \frac{s_j}{n_p(n_p - 1) /2},</annotation></semantics></math></p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>p</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></munderover><mfrac><msub><mi>s</mi><mi>j</mi></msub><mrow><msub><mi>n</mi><mi>p</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>n</mi><mi>p</mi></msub><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>2</mn></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">C_p = \sum_{j = 1}^{k} \frac{s_j}{n_p(n_p - 1) /2},</annotation></semantics></math></p>
 <p>with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
 being defined as:</p>
@@ -242,7 +242,7 @@ equivalent to the one given by Pollack et al. (2013). The new proposal
 is to weight the different connection types differently. The
 <em>fragmented care density</em> as proposed by Engels et al. (2024) is
 then given by:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><msub><mi>C</mi><mi>p</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></munderover><msub><mi>w</mi><mi>j</mi></msub><mfrac><msub><mi>s</mi><mi>j</mi></msub><mrow><msub><mi>n</mi><mi>p</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mi>p</mi></msub><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>2</mn></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">FC_p = \sum_{j = 1}^{k} w_j \frac{s_j}{n_p(n_p - 1) /2}.</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><msub><mi>C</mi><mi>p</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></munderover><msub><mi>w</mi><mi>j</mi></msub><mfrac><msub><mi>s</mi><mi>j</mi></msub><mrow><msub><mi>n</mi><mi>p</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>n</mi><mi>p</mi></msub><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>2</mn></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">FC_p = \sum_{j = 1}^{k} w_j \frac{s_j}{n_p(n_p - 1) /2}.</annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mi>j</mi></msub><annotation encoding="application/x-tex">w_j</annotation></semantics></math>
 are some connection specific weights. Engels et al. (2024) propose to
@@ -451,7 +451,7 @@ Coordination Using Claims Data”. Journal of General Internal Medicine 28
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
